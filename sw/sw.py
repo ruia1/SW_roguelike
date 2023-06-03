@@ -1,20 +1,63 @@
-import random
+import random, json, requests
 import os
-def makeTree(length):
-    pass
 
 class sw:
-    def __init__(self):
-        self.ver = "2.5"
+    enemy_data = None
+    party_data = None
+
+    def __init__(self) -> None:
+        self.VER = "2.5"
     
-    def enemy_data(name):
-        pass
+    def enemy_data(self, name) -> "enemy":
+        if enemy_data == None:
+            enemy_data = sw.enemy.setup()
+        return self.enemy_data[name]
+    
+    def party_data(self, lv,n) -> "party":
+        if self.enemy_data == None:
+            sw.enemy.setup()
+        return self.enemy_data[lv][n]
 
-    def party_data(n):
-        pass
+    class treasurer:
+        def __init__(self, playerName = None, characterName = None, level = None, aexp = None, money = None, URL = None) -> None:
+            self.url = URL
+            if URL != None:
+                self.read_ytsheet(URL)
+            if playerName != None: self.playerName = playerName
+            if characterName != None: self.characterName = characterName
+            if level != None: self.level = level
+            if aexp != None: self.aexp = aexp
+            if money != None: self.money = money
 
-    class rogue:
-        def __init__(self, seed = None):
+        
+        def read_ytsheet(self, URL) -> None:
+            if not "https://yutorize.2-d.jp/ytsheet/sw2.5/?id=" in URL:
+                raise ValueError("URL is not correct. This supports only ytsheet.")
+            if "mode=json" in URL:
+                URL = URL + "&mode=json"
+            data = json.loads(requests.get(URL).content, parse_int = True)
+            self.playerName = data["playerName"]
+            self.characterName = data["characterName"]
+            self.level = int(data["level"])
+            #self.money = int(data["money"]) #moneyのデータが"自動"になっていたりするので対処法を考え中です
+            return True
+        
+    class enemy:
+        def __init__(self,name=None) -> None:
+            self.name = name
+
+        def setup(self) -> None:
+            pass #enemy_data, party_dataの読み込みをする関数　の予定
+    
+    class party:
+        def __init__(self) -> None:
+            pass
+
+#rogueクラスを内部クラスにするかswクラスを継承して使うのかはまだ考え中
+
+class sw_rogue(sw):
+        def __init__(self, seed = None) -> None:
+            super().__init__()
             self.N_STAGE = None #面
             self.N_FLOOR = None #階層
             self.N_BRANCH = None #分岐番号
@@ -23,19 +66,18 @@ class sw:
             self.A_PLAYER_LEVEL = None #冒険者レベル平均
             self.A_PLAYER_AEXP = None #冒険者平均累計経験点
             self.SEED = seed
-            self.stage = self.stage()
+            self.STAGE = self.stage()
 
         class stage:
-            def __init__(self,seed = None):
+            def __init__(self,seed = None) -> None:
                 self.SEED = seed
-                if self.SEED:
+                if self.SEED == None:
                     self.SEED = random.randint(10000000,99999999)
                 pass
-        
-    class enemy:
-        def __init__(self,name=None):
-            self.name = name
 
+            class room:
+                def __init__(self) -> None:
+                    pass
                 
 
 
@@ -43,6 +85,8 @@ class sw:
 
 
 
-
-game = sw.rogue()
-print(game.N_STAGE)
+if __name__ == '__main__':
+    game = sw_rogue()
+    url = "https://yutorize.2-d.jp/ytsheet/sw2.5/?id=JrSPbj&mode=json"
+    pl1 = game.treasurer(URL = url)
+    print(game.VER,pl1.characterName)
