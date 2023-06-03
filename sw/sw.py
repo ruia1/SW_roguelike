@@ -43,15 +43,16 @@ class sw:
             return True
         
     class enemy:
-        def __init__(self,name=None) -> None:
+        def __init__(self, name=None) -> None:
             self.name = name
 
         def setup(self) -> None:
             pass #enemy_data, party_dataの読み込みをする関数　の予定
     
     class party:
-        def __init__(self) -> None:
-            pass
+        def __init__(self,treasures, partyLevel=None, ) -> None:
+            self.partyLevel = partyLevel
+            self.treasures = self.treasures
 
 #rogueクラスを内部クラスにするかswクラスを継承して使うのかはまだ考え中
 
@@ -65,19 +66,47 @@ class sw_rogue(sw):
             self.S_PLAYER_LEVEL = None #冒険者レベル合計
             self.A_PLAYER_LEVEL = None #冒険者レベル平均
             self.A_PLAYER_AEXP = None #冒険者平均累計経験点
+            self.generate_seed(seed)
+            self.STAGE = self.stage(self.SEED)
+        
+        def generate_seed(self, seed) -> None:
             self.SEED = seed
-            self.STAGE = self.stage()
+            if self.SEED == None:
+                self.SEED = random.randint(10000000,99999999)
 
         class stage:
             def __init__(self,seed = None) -> None:
-                self.SEED = seed
-                if self.SEED == None:
-                    self.SEED = random.randint(10000000,99999999)
+                self.generate()
+                pass
+
+            def generate():
                 pass
 
             class room:
-                def __init__(self) -> None:
-                    pass
+                def __init__(self, type=None) -> None:
+                    self.type = type
+                class enemy:
+                    def __init__(self) -> None:
+                        pass
+                class elite:
+                    def __init__(self) -> None:
+                        pass
+                class search:
+                    def __init__(self) -> None:
+                        pass
+                class q:
+                    def __init__(self) -> None:
+                        pass
+                class rest:
+                    def __init__(self) -> None:
+                        pass
+                class shop:
+                    def __init__(self) -> None:
+                        pass
+                class boss:
+                    def __init__(self) -> None:
+                        pass
+                        
                 
 
 
