@@ -33,9 +33,6 @@ def set_route(seed,flo,xx):
                 map[flo][xx].next_route1 = 1
                 map[flo][xx].next_route2 = 0
                 print("c",end = "")
-            else:
-                map[flo][xx].next_route2 = 0 
-                print("d",end = "")
         elif xx == 5:
             if (seed + r) % 3 == 0:
                 map[flo][xx].next_route2 = 0
@@ -47,14 +44,9 @@ def set_route(seed,flo,xx):
                 map[flo][xx].next_route2 = 0
                 map[flo][xx].next_route3 = -1
                 print("C",end = "")
-            else:
-                map[flo][xx].next_route3 = -1
-                print("D",end = "")
         else:
             if (seed + r) % 7 == 0:
-                map[flo][xx].next_route1 = 1
                 map[flo][xx].next_route2 = 0
-                map[flo][xx].next_route3 = -1
                 print(1,end = "")
             elif (seed + r) % 7 == 1:
                 map[flo][xx].next_route1 = 1
@@ -77,9 +69,6 @@ def set_route(seed,flo,xx):
                 map[flo][xx].next_route3 = -1
                 map[flo][xx].next_route1 = 1
                 print(7,end = "")
-            else:
-                map[flo][xx].next_route2 = 0
-                print(8,end = "")
 
 def gen_map(seed):
     limit = 0
