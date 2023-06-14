@@ -17,45 +17,69 @@ map = [[nod() for i in range(6)] for j in range(12)]
 seed = random.randint(10000000,99999999)
 
 def set_route(seed,flo,xx):
+    r = random.randint(0,255)
     if (flo+xx)&1:
-        map[flo][xx].next_toute = 0
+        map[flo][xx].next_route2 = 0
+        print(9,end = "")
     else:
         if xx == 0:
-            if seed % 3 == 0:
+            if (seed + r) % 3 == 0:
                 map[flo][xx].next_route1 = 1
-            elif seed % 3 == 1:
+                print("a",end = "")
+            elif (seed + r) % 3 == 1:
                 map[flo][xx].next_route2 = 0
-            elif seed % 3 == 2:
+                print("b",end = "")
+            elif (seed + r) % 3 == 2:
                 map[flo][xx].next_route1 = 1
                 map[flo][xx].next_route2 = 0
+                print("c",end = "")
+            else:
+                map[flo][xx].next_route2 = 0 
+                print("d",end = "")
         elif xx == 5:
-            if seed % 3 == 0:
+            if (seed + r) % 3 == 0:
                 map[flo][xx].next_route2 = 0
-            elif seed % 3 == 1:
+                print("A",end = "")
+            elif (seed + r) % 3 == 1:
                 map[flo][xx].next_route3 = -1
-            elif seed % 3 == 2:
+                print("B",end = "")
+            elif (seed + r) % 3 == 2:
                 map[flo][xx].next_route2 = 0
                 map[flo][xx].next_route3 = -1
+                print("C",end = "")
+            else:
+                map[flo][xx].next_route3 = -1
+                print("D",end = "")
         else:
-            if seed % 7 == 0:
+            if (seed + r) % 7 == 0:
                 map[flo][xx].next_route1 = 1
                 map[flo][xx].next_route2 = 0
                 map[flo][xx].next_route3 = -1
-            elif seed % 7 == 1:
+                print(1,end = "")
+            elif (seed + r) % 7 == 1:
                 map[flo][xx].next_route1 = 1
-            elif seed % 7 == 2:
+                print(2,end = "")
+            elif (seed + r) % 7 == 2:
                 map[flo][xx].next_route2 = 0
-            elif seed % 7 == 3:
+                print(3,end = "")
+            elif (seed + r) % 7 == 3:
                 map[flo][xx].next_route3 = -1
-            elif seed % 7 == 4:
+                print(4,end = "")
+            elif (seed + r) % 7 == 4:
                 map[flo][xx].next_route1 = 1
                 map[flo][xx].next_route2 = 0
-            elif seed % 7 == 5:
+                print(5,end = "")
+            elif (seed + r) % 7 == 5:
                 map[flo][xx].next_route2 = 0
                 map[flo][xx].next_route3 = -1
-            elif seed % 7 == 6:
+                print(6,end = "")
+            elif (seed + r) % 7 == 6:
                 map[flo][xx].next_route3 = -1
                 map[flo][xx].next_route1 = 1
+                print(7,end = "")
+            else:
+                map[flo][xx].next_route2 = 0
+                print(8,end = "")
 
 def gen_map(seed):
     limit = 0
@@ -67,22 +91,23 @@ def gen_map(seed):
             map[0][x].cur_x = x
             set_route(seed,0,x)
             limit += 1
+            print("0",x)
     for i in range(11):
         now_floor = i + 1
-        for x in range(6):
+        for x in range(6): 
+            print("___",now_floor,x)
             map[now_floor][x].cur_floor = now_floor
             if map[i][x].next_route1 == 1:
-                map[now_floor][x].cur_x = x + map[i][x].next_route1
-                set_route(seed,now_floor,x)
+                map[now_floor][x + 1].cur_x = x + 1
+                set_route(seed,now_floor,x+1)
             if map[i][x].next_route2 == 0:
-                map[now_floor][x].cur_x = x + map[i][x].next_route2
+                map[now_floor][x].cur_x = x
                 set_route(seed,now_floor,x)
             if map[i][x].next_route3 == -1:
-                map[now_floor][x].cur_x = x + map[i][x].next_route3
-                set_route(seed,now_floor,x)
+                map[now_floor][x - 1].cur_x = x - 1
+                set_route(seed,now_floor,x-1)
 
 gen_map(seed)
-print()
 i = 0
 j = 0
 print()
@@ -90,9 +115,9 @@ while i < 12:
     print("[",end = "")
     while j < 6:
         if map[i][j].cur_x != None:
-            print(1,end = "")
+            print(map[i][j].cur_x+1,end = "")
         else:
-            print(0,end = "")
+            print("-",end = "")
         print(",",end = "")
         j += 1
     j = 0
