@@ -156,19 +156,19 @@ class stage: #import room
         
         def setup(self):
             if self.type == 0:
-                self.room = room.battle(self)
+                self.room = stage.room.battle(self)
             elif self.type == 1:
-                self.room = room.elite(self)
+                self.room = stage.room.elite(self)
             elif self.type == 2:
-                self.room = room.search(self)
+                self.room = stage.room.search(self)
             elif self.type == 3:
-                self.room = room.event(self)
+                self.room = stage.room.event(self)
             elif self.room == 4:
-                self.room = room.rest(self)
+                self.room = stage.room.rest(self)
             elif self.room == 5:
-                self.room = room.shop(self)
+                self.room = stage.room.shop(self)
             elif self.room == 6:
-                self.room = room.boss(self)
+                self.room = stage.room.boss(self)
 
         class battle:
             def __init__(self, room) -> None:
