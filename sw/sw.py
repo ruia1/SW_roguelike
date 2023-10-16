@@ -117,6 +117,20 @@ class swRogue(sw): #import random, sw, stage
     def addMoneyExp(self, money, exp):
         self.earn += money
         self.exp += exp
+    
+    class discord:
+        TOKEN = os.environ["DISCORD_BOT_TOKEN"]
+        def setup():
+            pass
+
+        def choice():
+            pass
+
+        def room():
+            pass
+
+        def run():
+            pass
 
 class stage: #import room
     def __init__(self, seed) -> None:
@@ -128,44 +142,62 @@ class stage: #import room
 
     def enter(self, x, y, swRogue):
         type = self.stage[y][x][0]
-        room = room(type, x, y, swRogue)
+        room = self.stagep[y][x][1]
 
-class room: #import None
-    def __init__(self, type, x, y, swRogue) -> None:
-        self.type = type
-        self.x = x
-        self.y = y
-        self.seed = swRogue.SEED
-        roomSeed = (swRogue.SEED * x * (y+10))%(10**8)
-        random.seed(roomSeed)
+    class room: #import None
+        def __init__(self, x, y, swRogue, type=None) -> None:
+            self.type = type
+            self.x = x
+            self.y = y
+            self.seed = swRogue.SEED
+            roomSeed = (swRogue.SEED * x * (y+10))%(10**8)
+            random.seed(roomSeed)
+            self.setup()
         
-    class enemy:
-        def __init__(self, x, y, roomSeed) -> None:
-            pass
+        def setup(self):
+            if self.type == 0:
+                self.room = stage.room.battle(self)
+            elif self.type == 1:
+                self.room = stage.room.elite(self)
+            elif self.type == 2:
+                self.room = stage.room.search(self)
+            elif self.type == 3:
+                self.room = stage.room.event(self)
+            elif self.room == 4:
+                self.room = stage.room.rest(self)
+            elif self.room == 5:
+                self.room = stage.room.shop(self)
+            elif self.room == 6:
+                self.room = stage.room.boss(self)
 
-    class elite:
-        def __init__(self, x, y, roomSeed) -> None:
-            pass
+        class battle:
+            def __init__(self, room) -> None:
+                pass
 
-    class search:
-        def __init__(self, x, y, seed) -> None:
-            pass
+        class elite:
+            def __init__(self, room) -> None:
+                pass
 
-    class q:
-        def __init__(self, x, y, seed) -> None:
-            pass
+        class search:
+            def __init__(self, room) -> None:
+                pass
 
-    class rest:
-        def __init__(self, x, y, seed) -> None:
-            pass
+        class event:
+            def __init__(self, room) -> None:
+                pass
 
-    class shop:
-        def __init__(self, x, y, seed) -> None:
-            pass
+        class rest:
+            def __init__(self, room) -> None:
+                pass
 
-    class boss:
-        def __init__(self, x, y, seed) -> None:
-            pass
+        class shop:
+            def __init__(self, room) -> None:
+                pass
+
+        class boss:
+            def __init__(self, room) -> None:
+                pass
+
 
 
 if __name__ == '__main__':
